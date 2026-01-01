@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function BlogLayout({children}: {children: React.ReactNode}) {
     return (
         <div className="flex gap-8 min-h-screen">
@@ -32,19 +34,19 @@ export default function BlogLayout({children}: {children: React.ReactNode}) {
                             <h4 className="text-sm font-semibold text-gray-600 uppercase mb-3">Populer</h4>
                             <ul className="space-y-2">
                                 <li>
-                                    <a href="/blog/belajar-nextjs" className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
+                                    <Link href="/blog/belajar-nextjs" className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
                                         Belajar Next.js
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="/blog/latihan-route-next" className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
+                                    <Link href="/blog/latihan-route-next" className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
                                         Latihan Route
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="/blog/judul-berita" className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
+                                    <Link href="/blog/judul-berita" className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
                                         Judul Berita
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
