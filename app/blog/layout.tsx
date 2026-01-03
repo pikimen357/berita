@@ -1,6 +1,20 @@
 import Link from "next/link";
+import { getAllPosts } from "@/lib/post";
 
-export default function BlogLayout({children}: {children: React.ReactNode}) {
+interface BlogPost {
+    title: string;
+    slug: string;
+}
+
+export default  async function BlogLayout({children}: {children: React.ReactNode}) {
+
+    const allPosts = await getAllPosts();
+        
+    const blogPosts: BlogPost[] = allPosts.map(post => ({
+            title: post.title,
+            slug: post.slug,
+        }));
+
     return (
         <div className="flex gap-8 min-h-screen">
             {/* Sidebar */}
@@ -33,16 +47,14 @@ export default function BlogLayout({children}: {children: React.ReactNode}) {
                         <div className="pb-4 border-b border-gray-200">
                             <h4 className="text-sm font-semibold text-gray-600 uppercase mb-3">Populer</h4>
                             <ul className="space-y-2">
-                                <li>
-                                    <Link href="/blog/belajar-nextjs" className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
-                                        Belajar Next.js
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/blog/latihan-route-next" className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
-                                        Latihan Route
-                                    </Link>
-                                </li>
+                                {blogPosts.map((post: BlogPost) => (
+                                    <li key={post.slug}>
+                                        <Link href={`/blog/${post.slug}`} className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
+                                            {post.title}
+                                        </Link>
+                                    </li>
+                                ))}
+                                            
                                 <li>
                                     <Link href="/blog/judul-berita" className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
                                         Judul Berita

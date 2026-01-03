@@ -1,14 +1,13 @@
 ---
-title : "Belajar next.js"
+title : "Latihan Route Next Js"
 image : "/images/gedung.png"
-date : "26/11/2023"
-author : "admin"
+date : "26/11/2025"
+author : "Pengajar"
 rate : 4
 
 ---
 
-
-# What is Next.js?
+# Latihan Route Next JS
 
 Next.js is a React framework for building full-stack web applications. You use React Components to build user interfaces, and Next.js for additional features and optimizations.
 

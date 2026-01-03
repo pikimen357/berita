@@ -15,7 +15,7 @@ module.exports = {
         DEFAULT: {
           css: {
             '--tw-prose-body': theme('colors.gray[800]'),
-            fontFamily: theme('fontFamily.roboto'), // Mengunci prose ke Roboto
+            fontFamily: theme('fontFamily.roboto'), 
             h1: { fontFamily: theme('fontFamily.roboto') },
             h2: { fontFamily: theme('fontFamily.roboto') },
           },
