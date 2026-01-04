@@ -24,20 +24,23 @@ export default async function Home() {
     }));
 
     return (
-        <>
+        <div className="px-4 py-8 sm:px-6 lg:px-8">
             <Heading title="This is Blog" />
-            <p>List of blog</p>
+            <p className="mt-4 text-gray-600 text-lg font-medium">List of blog</p>
 
-            {blogPosts.map((post: BlogPost, index: number) => (
-                <PostCard key={index} 
-                    title={post.title} 
-                    href={`/blog/${post.slug}`}
-                    description={post.description}
-                    image={post.image}
-                    date={post.date}
-                    author={post.author}/>
-            ))}
-            
-        </>
+            <div className="mt-8 space-y-4">
+                {blogPosts.map((post: BlogPost, index: number) => (
+                    <PostCard
+                        key={index}
+                        title={post.title}
+                        href={`/blog/${post.slug}`}
+                        description={post.description}
+                        image={post.image}
+                        date={post.date}
+                        author={post.author}
+                    />
+                ))}
+            </div>
+        </div>
     );
 }

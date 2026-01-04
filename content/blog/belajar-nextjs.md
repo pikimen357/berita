@@ -1,6 +1,7 @@
 ---
 title : "Belajar next.js"
 image : "/images/gedung.png"
+description : "Mari kita belajar next js"
 date : "26/11/2023"
 author : "admin"
 rate : 4

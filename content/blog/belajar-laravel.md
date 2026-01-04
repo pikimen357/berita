@@ -1,6 +1,7 @@
 ---
 title : "Belajar Laravel"
 image : "/images/gedung.png"
+description : "Mari kita belajar laravel"
 date : "26/11/2021"
 author : "admin"
 rate : 4

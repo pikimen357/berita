@@ -2,15 +2,14 @@ import { marked } from "marked";
 import matter from "gray-matter";
 import { readFile, readdir } from "node:fs/promises";
 
-export async function getPost(slug: string):Promise<{ title: string; image: string; date: string; authors: string; html: string; rate: string }> {
+export async function getPost(slug: string):Promise<{ title: string; image: string; description: string; date: string; author: string; html: string; rate: string }> {
 
     const text = await readFile(`./content/blog/${slug}.md`, "utf-8");
 
-    const { content, data: { title, image, date, authors, rate } }  = matter(text);
-
+    const { content, data: { title, image, description, date, author, rate } }  = matter(text);
     const html = await marked(content);
 
-    return { title, image, date, authors,  html, rate };
+    return { title, image, description, date, author,  html, rate };
     
 }
 

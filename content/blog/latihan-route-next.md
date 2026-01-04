@@ -1,6 +1,7 @@
 ---
 title : "Latihan Route Next Js"
 image : "/images/gedung.png"
+description : "Mari kita latihan routing pada nextjs"
 date : "26/11/2025"
 author : "Pengajar"
 rate : 4

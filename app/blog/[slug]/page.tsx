@@ -9,7 +9,7 @@ export default async function Home(props: { params: Promise<{ slug: string }> })
     return (
         <>
             <Heading title={post.title} />
-            <p className="italic text-sm pb-2">{post.date} - {post.authors}</p>
+            <p className="italic text-sm pb-2">{post.date} - {post.author}</p>
             <p className="italic text-sm pb-2">Rate: {post.rate}</p>
             <img src={post.image}      className="rounded-lg shadow-md mb-5"
                 width={600} height={400} />
