@@ -1,5 +1,20 @@
+import ShareLinkButton from "@/components/ShareLinkButton";
 import Heading from "@/components/Heading";
 import { getPost } from "@/lib/post";
+import { Metadata } from "next";
+
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await props.params;
+    const post = await getPost(slug);
+
+    return {
+        title: post.title,
+        description: post.description,
+        icons: {
+            icon: post.image,
+        },
+    };
+}
 
 export default async function Home(props: { params: Promise<{ slug: string }> }) {
     const { slug } = await props.params;
@@ -9,8 +24,13 @@ export default async function Home(props: { params: Promise<{ slug: string }> })
     return (
         <>
             <Heading title={post.title} />
-            <p className="italic text-sm pb-2">{post.date} - {post.author}</p>
-            <p className="italic text-sm pb-2">Rate: {post.rate}</p>
+            <div className="flex flex-row gap-5 pb-2 items-end">
+                <div className="flex flex-col gap-1">
+                    <p className="italic text-sm -mb-0.5">{post.date} - {post.author}</p>
+                    <p className="italic text-sm -mb-1">Rate: {post.rate}</p>
+                </div>
+                <ShareLinkButton />
+            </div>
             <img src={post.image}      className="rounded-lg shadow-md mb-5"
                 width={600} height={400} />
             <article 

@@ -1,11 +1,22 @@
 import Navbar from "@/components/Navbar";
 import { roboto } from "./fonts";
-
 import './globals.css';
+import { Metadata } from "next";
 
 interface LayoutProps {
     children: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+    title: {
+        default: "Belajar Next.js",
+        template: "%s | Belajar Next.js",
+    },
+    description: "Belajar Next.js Fundamental dari dasar hingga mahir",
+    icons: {
+        icon: "/images/round.jpeg",
+    }
+};
 
 
 export  default function Layout({ children } : LayoutProps) {

@@ -4,7 +4,7 @@ import { getAllPosts } from "@/lib/post";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Berita",
+    title: "Blog",
     description: "Belajar Next.js Fundamental dari dasar hingga mahir",
 };
 
