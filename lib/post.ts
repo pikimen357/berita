@@ -32,3 +32,11 @@ export async function getAllPosts():Promise<Array<{ slug: string; title: string;
     return posts;
 }
 
+export async function getSlugs() {
+    
+    const files = await readdir(`./content/blog`);
+
+    return files.filter(file => file.endsWith('.md'))
+                .map(file => file.replace('.md', ''));
+}
+
