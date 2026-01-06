@@ -32,8 +32,9 @@ export async function getAllPosts():Promise<Array<{ slug: string; title: string;
     return posts;
 }
 
+// fungsi untuk mendapatkan semua slug dari postingan
 export async function getSlugs() {
-    
+
     const files = await readdir(`./content/blog`);
 
     return files.filter(file => file.endsWith('.md'))

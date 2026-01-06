@@ -3,6 +3,7 @@ import Heading from "@/components/Heading";
 import { getPost, getSlugs } from "@/lib/post";
 import { Metadata } from "next";
 
+// Generate static params for dynamic routes
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
     const slugs = await getSlugs();
     return slugs.map((slug) => ({ slug }));
