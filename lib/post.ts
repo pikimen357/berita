@@ -36,10 +36,10 @@ export async function getPost(slug: string):Promise<{ slug: string; title: strin
 
 export async function getAllPosts(){
 
-    // ambil url dari environment variable
     const baseUrl = process.env.BASE_URL;
+    const apiUrl = baseUrl + 'api';
 
-    const  url: string  =  `${baseUrl}/posts` + '?' + qs.stringify({
+    const  url: string  =  `${apiUrl}/posts` + '?' + qs.stringify({
         fields : ['slug','title', 'description', 'publishedAt','author', 'body'],
         populate: { image : {fields: 'url'} },
         sort: ['publishedAt:desc'],
@@ -52,14 +52,24 @@ export async function getAllPosts(){
     const response: Response = await fetch(url);
     const { data } = await response.json();
 
-    const posts = data.map((item: any) => ({
-        slug: item.slug,
-        title: item.title,
-        author: item.author,
-        description: item.description,
-        image: item.image,
-        date: item.publishedAt,
-    }));
+    const posts: Array<{ slug: string; title: string; description: string; image: string; date: string; author: string }> = data.map((item: any) => {
+
+        const imagePath: string = item.image?.formats?.thumbnail?.url 
+                                    || item.image?.url 
+                                    || '';
+
+        // Pastikan path dimulai dengan /
+        const cleanPath: string = imagePath.startsWith('/') ? imagePath : '/' + imagePath;
+
+        return {
+            slug: item.slug,
+            title: item.title,
+            author: item.author,
+            description: item.description,
+            image: baseUrl?.replace(/\/$/, '') + cleanPath,
+            date: item.publishedAt.slice(0,"yyyy-MM-DD".length)
+        };
+    });
 
     return posts;
 }
