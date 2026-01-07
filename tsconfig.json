@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    // Hapus ignoreDeprecations
-    // Hapus baseUrl
     "target": "ES2017",
     "lib": [
       "dom",
@@ -26,7 +24,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]  // Ini tetap bisa digunakan tanpa baseUrl di bundler mode
+      "@/*": ["./*"]  
     }
   },
   "include": [

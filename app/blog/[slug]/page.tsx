@@ -2,7 +2,9 @@ import ShareLinkButton from "@/components/ShareLinkButton";
 import Heading from "@/components/Heading";
 import { getAllPosts, getPost, getSlugs } from "@/lib/post";
 import { Metadata } from "next";
+import Image from "next/image";
 import { JSX } from "react";
+
 
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
     const slugs = await getSlugs();
@@ -37,7 +39,7 @@ export default async function Home(props: { params: Promise<{ slug: string }> })
                 </div>
                 <ShareLinkButton />
             </div>
-            <img src={post.image}      className="rounded-lg shadow-md mb-5"
+            <Image src={post.image} alt={post.title} className="rounded-lg shadow-md mb-5"
                 width={600} height={400} />
             <article 
                 dangerouslySetInnerHTML={{ __html: post.body }} 
