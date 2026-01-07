@@ -5,6 +5,46 @@ import qs  from "qs";
 const baseUrl: string = process.env.BASE_URL;
 const apiUrl:  string = baseUrl + 'api';
 
+interface FetchPostsParams {
+    fields?: string[];
+    filters?: Record<string, any>;
+    populate?: Record<string, any>;
+    sort?: string[];
+    pagination?: {
+        pageSize: number;
+        withCount?: boolean;
+    };
+}
+
+interface StrapiPost {
+    slug: string;
+    title: string;
+    description: string;
+    author: string;
+    publishedAt: string;
+    body?: string;
+    rate?: string;
+    image?: {
+        url?: string;
+        formats?: {
+            thumbnail?: {
+                url: string;
+            };
+        };
+    };
+}
+
+interface Post {
+    slug: string;
+    title: string;
+    image: string;
+    description: string;
+    date: string;
+    author: string;
+    body?: string;
+    rate?: string;
+}
+
 export async function getPost(slug: string): Promise<Post> {
 
     const data = await fetchPosts({
@@ -37,16 +77,6 @@ export async function getAllPosts(): Promise<Array<Post>> {
     return await Promise.all(posts);
 }
 
-interface FetchPostsParams {
-    fields?: string[];
-    filters?: Record<string, any>;
-    populate?: Record<string, any>;
-    sort?: string[];
-    pagination?: {
-        pageSize: number;
-        withCount?: boolean;
-    };
-}
 
 async function fetchPosts(parameters: FetchPostsParams): Promise<Array<any>> {
     const  url: string  =  `${apiUrl}/posts` + '?' + 
@@ -58,34 +88,6 @@ async function fetchPosts(parameters: FetchPostsParams): Promise<Array<any>> {
     return data;
 }
 
-interface StrapiPost {
-    slug: string;
-    title: string;
-    description: string;
-    author: string;
-    publishedAt: string;
-    body?: string;
-    rate?: string;
-    image?: {
-        url?: string;
-        formats?: {
-            thumbnail?: {
-                url: string;
-            };
-        };
-    };
-}
-
-interface Post {
-    slug: string;
-    title: string;
-    image: string;
-    description: string;
-    date: string;
-    author: string;
-    body?: string;
-    rate?: string;
-}
 
 async function toPost(item: StrapiPost, isFullPost: boolean = false): Promise<Post> {
     const imagePath: string = item.image?.formats?.thumbnail?.url 
