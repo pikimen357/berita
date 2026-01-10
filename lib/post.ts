@@ -5,6 +5,8 @@ import qs  from "qs";
 const baseUrl: string = process.env.BASE_URL;
 const apiUrl:  string = baseUrl + 'api';
 
+export const CAHCE_TAG_POSTS = 'posts';
+
 interface FetchPostsParams {
     fields?: string[];
     filters?: Record<string, any>;
@@ -72,7 +74,7 @@ export async function getAllPosts(): Promise<Array<Post>> {
     const data = await fetchPosts({
         fields : ['slug','title', 'description', 'publishedAt','author'],
         populate: { image : {fields: 'url'} },
-        sort: ['publishedAt:desc'],
+        sort: ['updatedAt:desc'],
         pagination: { pageSize: 3}
     });
 
@@ -86,7 +88,13 @@ async function fetchPosts(parameters: FetchPostsParams): Promise<Array<any>> {
     const  url: string  =  `${apiUrl}/posts` + '?' + 
     qs.stringify(parameters, { encodeValuesOnly: true });
 
-    const response: Response = await fetch(url);
+    const response: Response = await fetch(url, {
+        next: { tags: [CAHCE_TAG_POSTS] }
+    });
+
+    if (!response.ok) {
+        throw new Error(`Gagal mengambil data dari Strapi: ${response.status} ${response.statusText}`);
+    }
     const { data } = await response.json();
     
     return data;

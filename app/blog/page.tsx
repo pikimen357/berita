@@ -3,6 +3,8 @@ import PostCard from "@/components/PostCard";
 import { getAllPosts } from "@/lib/post";
 import { Metadata } from "next";
 
+export const revalidate = 30; // Revalidate every 30 seconds
+
 export const metadata: Metadata = {
     title: "Blog",
     description: "Belajar Next.js Fundamental dari dasar hingga mahir",

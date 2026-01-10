@@ -6,12 +6,13 @@ import Image from "next/image";
 import { JSX } from "react";
 import { notFound } from "next/navigation";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
+export const revalidate = 30; // Revalidate every 30 seconds
 
-// export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
-//     const slugs = await getSlugs();
-//     return slugs.map((slug) => ({ slug }));
-// }
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+    const slugs = await getSlugs();
+    return slugs.map((slug) => ({ slug }));
+}
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await props.params;
@@ -31,7 +32,10 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
 }
 
 export default async function Home(props: { params: Promise<{ slug: string }> }): Promise<JSX.Element> {
+
     const { slug } = await props.params;
+
+    console.log("Slug: ", slug)
 
     const post = await getPost(slug);
 
