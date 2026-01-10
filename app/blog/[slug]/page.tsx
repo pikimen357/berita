@@ -4,16 +4,22 @@ import { getAllPosts, getPost, getSlugs } from "@/lib/post";
 import { Metadata } from "next";
 import Image from "next/image";
 import { JSX } from "react";
+import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
 
-export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
-    const slugs = await getSlugs();
-    return slugs.map((slug) => ({ slug }));
-}
+// export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+//     const slugs = await getSlugs();
+//     return slugs.map((slug) => ({ slug }));
+// }
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await props.params;
     const post = await getPost(slug);
+
+    if (!post) {
+        notFound();
+    }
 
     return {
         title: post.title,
@@ -28,6 +34,10 @@ export default async function Home(props: { params: Promise<{ slug: string }> })
     const { slug } = await props.params;
 
     const post = await getPost(slug);
+
+    if (!post) {
+        notFound();
+    }
 
     return (
         <>

@@ -53,12 +53,16 @@ export async function getPost(slug: string): Promise<Post> {
         populate: { image : {fields: 'url'} },
         pagination: { pageSize: 1, withCount: false }
     });
+
+    if (data.length === 0) {
+        return null;
+    }
     
     const dataItem: StrapiPost = data[0];
 
-    if (!dataItem) {
-        throw new Error(`Post dengan slug "${slug}" tidak ditemukan`);
-    }
+    // if (!dataItem) {
+    //     throw new Error(`Post dengan slug "${slug}" tidak ditemukan`);
+    // }
 
     return await toPost(dataItem, true);
 }
