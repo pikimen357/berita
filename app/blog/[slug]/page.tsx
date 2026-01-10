@@ -31,7 +31,7 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
     };
 }
 
-export default async function Home(props: { params: Promise<{ slug: string }> }): Promise<JSX.Element> {
+export default async function PostPage(props: { params: Promise<{ slug: string }> }): Promise<JSX.Element> {
 
     const { slug } = await props.params;
 

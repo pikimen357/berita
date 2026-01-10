@@ -2,6 +2,8 @@ import Heading from "@/components/Heading";
 import PostCard from "@/components/PostCard";
 import { getAllPosts } from "@/lib/post";
 import { Metadata } from "next";
+import Link from "next/link";
+import { parse } from "node:path";
 
 export const revalidate = 30; // Revalidate every 30 seconds
 
@@ -19,7 +21,13 @@ interface BlogPost {
     author: string;
 }
 
-export default async function Home() {
+export default async function Home({ searchParams }) {
+    
+    const params = await searchParams;
+
+    const page = parsePageParam(params.page);
+    console.log(`Page: ${page}`);
+
     const allPosts = await getAllPosts();
     
     const blogPosts: BlogPost[] = allPosts.map(post => ({
@@ -34,8 +42,13 @@ export default async function Home() {
     return (
         <div className="px-4 py-8 sm:px-6 lg:px-8">
             <Heading title="This is Blog" />
-            <p className="mt-4 text-gray-600 text-lg font-medium">List of blog</p>
-
+            <h2 className="text-gray-600 text-lg font-medium">List of blog</h2>
+            <br />
+            <div className="flex gap-3">
+                <Link href={`/blog?page=${page > 1 ? page - 1 : 1}`}>&lt;</Link>
+                <span>Page {page}</span>
+                <Link href={`/blog?page=${page + 1}`}>&gt;</Link>
+            </div>
             <div className="mt-8 space-y-4">
                 {blogPosts.map((post: BlogPost, index: number) => (
                     <PostCard
@@ -51,4 +64,16 @@ export default async function Home() {
             </div>
         </div>
     );
+}
+
+function parsePageParam(paramalue): number {
+    
+    if(paramalue){
+        const pageNumber = parseInt(paramalue);
+        if(isFinite(pageNumber) && pageNumber > 0){
+            return pageNumber;
+        }
+    }
+
+    return 1;
 }
