@@ -48,8 +48,8 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
             <Heading title={post.title} />
             <div className="flex flex-row gap-5 pb-2 items-end">
                 <div className="flex flex-col gap-1">
-                    <p className="italic text-sm -mb-0.5">{post.date} - {post.author}</p>
-                    <p className="italic text-sm -mb-1">Rate: {post.rate}</p>
+                    <p className="italic text-sm text-slate-600 -mb-0.5">{post.date} - {post.author}</p>
+                    <p className="italic text-sm text-slate-600 -mb-1">Rate: {post.rate}</p>
                 </div>
                 <ShareLinkButton />
             </div>
@@ -57,7 +57,7 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
                 width={600} height={400} />
             <article 
                 dangerouslySetInnerHTML={{ __html: post.body }} 
-                className="prose font-roboto max-w-none" 
+                className="prose font-roboto max-w-none prose-headings:text-slate-900 prose-p:text-slate-800 prose-a:text-blue-600 hover:prose-a:text-blue-700" 
             ></article>
         </>
     );

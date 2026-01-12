@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { ChevronLeftIcon,  ChevronRightIcon } from "@heroicons/react/24/solid";
 
 interface PaginationProps { 
@@ -36,7 +37,7 @@ function PaginationLink({children, href, enabled}: {children: React.ReactNode, h
 
     if (!enabled) { 
         return(
-            <span className="px-3 py-1 border border-gray-300 rounded-md text-gray-400 cursor-not-allowed">
+            <span className="px-3 py-1 border border-slate-300 rounded-md text-slate-400 cursor-not-allowed">
                 {children}
             </span>
         );
@@ -45,7 +46,7 @@ function PaginationLink({children, href, enabled}: {children: React.ReactNode, h
     return(
         <Link
             href={href}
-            className="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-200 transition"
+            className="px-3 py-1 border border-slate-300 rounded-md hover:bg-slate-200 text-slate-700 font-semibold transition duration-200"
             >
             {children}
         </Link>

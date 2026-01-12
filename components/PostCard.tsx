@@ -18,14 +18,14 @@ export default function PostCard({title, href, description,image, date, author})
             
             <div className="mb-6 w-full md:w-10/12 md:px-3">
                 <Link href={href} className="no-underline">
-                    <h2 className="text-lg font-bold text-gray-900 cursor-pointer hover:underline hover:text-blue-600">
+                    <h2 className="text-lg font-bold text-slate-900 cursor-pointer hover:underline hover:text-blue-600">
                         {title}
                     </h2>
                 </Link>
-                <p className="mb-3 text-sm text-gray-600 italic">
+                <p className="mb-3 text-sm text-slate-600 italic">
                     Published <span className="font-semibold">{date}</span> by <span className="italic">{author}</span>
                 </p>
-                <p className="text-gray-700 text-lg">
+                <p className="text-slate-800 text-lg">
                     {description}
                 </p>
             </div>
