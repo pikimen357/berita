@@ -8,7 +8,7 @@ import Pagination from "@/components/Pagination";
 
 export const revalidate = 30; // Revalidate every 30 seconds
 
-const POSTS_PER_PAGE = 3;
+export const POSTS_PER_PAGE = 3;
 
 export const metadata: Metadata = {
     title: "Blog",
@@ -65,7 +65,7 @@ export default async function Home({ searchParams }): Promise<JSX.Element> {
     );
 }
 
-function parsePageParam(paramalue): number {
+export function parsePageParam(paramalue): number {
     
     if(paramalue){
         const pageNumber = parseInt(paramalue);

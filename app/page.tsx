@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
+import { parsePageParam, POSTS_PER_PAGE } from "./blog/page";
+import { getAllPosts } from "@/lib/post";
 // import PostCard from "@/components/PostCard"; // Hapus jika tidak dipakai, atau gunakan di bawah
 
 export const metadata: Metadata = {
@@ -14,42 +16,33 @@ export const metadata: Metadata = {
 // 1. Definisikan Interface untuk Type Safety
 interface BlogPost {
     title: string;
+    slug: string;
     description: string;
-    href: string;
     image: string;
     date: string;
     author: string;
 }
 
-// 2. Data statis dipindahkan ke luar komponen (Performance Optimization)
-const featuredPosts: BlogPost[] = [
-    {
-        title: "Memulai dengan Next.js - Panduan Lengkap",
-        description: "Pelajari dasar-dasar Next.js dan mulai membangun aplikasi web modern dengan framework React yang powerful.",
-        href: "/blog/belajar-nextjs",
-        image: "/images/gedung.png",
-        date: "12 January 2026",
-        author: "Developer"
-    },
-    {
-        title: "Laravel Framework - Panduan Pemula",
-        description: "Eksplorasi Laravel, framework PHP yang elegan dengan fitur-fitur powerful untuk development web yang efisien.",
-        href: "/blog/belajar-laravel",
-        image: "/images/banjir.png",
-        date: "10 January 2026",
-        author: "Developer"
-    },
-    {
-        title: "Latihan Routing di Next.js",
-        description: "Kuasai sistem routing di Next.js dengan contoh praktis dan best practices untuk aplikasi yang scalable.",
-        href: "/blog/latihan-route-next",
-        image: "/images/gedung.png",
-        date: "8 January 2026",
-        author: "Developer"
-    }
-];
+const POSTS_PER_SECTION = 12;
 
-export default function Home() {
+export default async function Home({ searchParams }): Promise<JSX.Element> {
+
+    const params = await searchParams;
+    
+    const page = parsePageParam(params.page);
+    console.log(`Page: ${page}`);
+    
+    const {pageCount, posts} = await getAllPosts(POSTS_PER_SECTION, page);
+        
+    const blogPosts: BlogPost[] = posts.map(post => ({
+            title: post.title,
+            slug: post.slug,
+            description: post.description,
+            image: post.image,
+            date: post.date,
+            author: post.author
+    }));
+
     return (
         <>
             {/* Hero Section */}
@@ -63,17 +56,17 @@ export default function Home() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                         <div>
                             <div className="inline-block bg-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6 text-sm font-semibold">
-                                ✨ Terbaru & Berkualitas
+                                ✨ Berita Terupdate
                             </div>
                             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                                Belajar Teknologi Web Modern
+                                Temukan Berita Terbaru Disini
                             </h1>
                             <p className="text-xl text-blue-100 mb-8 leading-relaxed">
-                                Panduan lengkap, tutorial mendalam, dan tips eksklusif untuk menguasai Next.js, Laravel, dan teknologi web terkini.
+                                Berita mulai dari politik, ekonomi, keamanan, isu sosial, kesehatan lengkap di sini.
                             </p>
                             <div className="flex gap-4">
                                 <Link href="/blog" className="bg-white text-blue-600 hover:bg-blue-50 font-bold py-3 px-8 rounded-lg transition duration-300 shadow-lg">
-                                    Baca Blog
+                                    Baca Berita
                                 </Link>
                                 <Link href="/contact" className="border-2 border-white text-white hover:bg-white/10 font-bold py-3 px-8 rounded-lg transition duration-300">
                                     Hubungi Kami
@@ -91,43 +84,45 @@ export default function Home() {
 
             {/* Featured Posts Section */}
             <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 w-full">
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl font-bold text-slate-900 mb-4">
-                            Artikel Terbaru
+                            Update Terbaru
                         </h2>
                         <p className="text-xl text-slate-600">
-                            Konten edukatif terbaik untuk developer Indonesia
+                            Update terbaru untuk pemirsa di Indonesia
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {featuredPosts.map((post, index) => (
-                            <Link key={index} href={post.href} className="group">
-                                <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden h-full flex flex-col">
-                                    <div className="relative h-48 overflow-hidden bg-slate-200">
-                                        <Image 
-                                            src={post.image} 
-                                            alt={post.title} 
-                                            width={400} 
-                                            height={200}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
-                                        />
-                                    </div>
-                                    <div className="p-6 flex-1 flex flex-col">
-                                        <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition duration-300">
-                                            {post.title}
-                                        </h3>
-                                        <p className="text-slate-700 mb-4 flex-1">
-                                            {post.description}
-                                        </p>
-                                        <div className="text-sm text-slate-600">
-                                            <span className="font-semibold">{post.date}</span> • by {post.author}
+                    <div className="overflow-x-auto no-scrollbar smooth-scroll pb-4">
+                        <div className="flex gap-6 w-max">
+                            {blogPosts.map((post, index) => (
+                                <Link key={index} href={`/blog/${post.slug}`} className="group">
+                                    <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden h-full flex flex-col w-80">
+                                        <div className="relative h-48 overflow-hidden bg-slate-200">
+                                            <Image 
+                                                src={post.image} 
+                                                alt={post.title} 
+                                                width={400} 
+                                                height={200}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                                            />
+                                        </div>
+                                        <div className="p-6 flex-1 flex flex-col">
+                                            <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition duration-300">
+                                                {post.title}
+                                            </h3>
+                                            <p className="text-slate-700 mb-4 flex-1">
+                                                {post.description}
+                                            </p>
+                                            <div className="text-sm text-slate-600">
+                                                <span className="font-semibold">{post.date}</span> • by {post.author}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Link>
-                        ))}
+                                </Link>
+                            ))}
+                        </div>
                     </div>
 
                     <div className="text-center mt-12">
@@ -143,7 +138,7 @@ export default function Home() {
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl font-bold text-slate-900 mb-4">
-                            Mengapa Memilih Blog Kami?
+                            Mengapa Memilih Situs Kami?
                         </h2>
                     </div>
 
@@ -157,7 +152,7 @@ export default function Home() {
                             </div>
                             <h3 className="text-xl font-bold text-slate-900 mb-2">Konten Berkualitas</h3>
                             <p className="text-slate-700">
-                                Artikel ditulis oleh developer berpengalaman dengan penjelasan yang mudah dipahami.
+                                Berita ditulis oleh jurnalis terkemuka dan memiliki tingkat kepercayaan publik yang tinggi.
                             </p>
                         </div>
 
@@ -170,7 +165,7 @@ export default function Home() {
                             </div>
                             <h3 className="text-xl font-bold text-slate-900 mb-2">Update Rutin</h3>
                             <p className="text-slate-700">
-                                Artikel baru dipublikasikan secara konsisten dengan topik yang relevan dan trending.
+                                Update terbaru dipublikasikan secara konsisten dengan topik yang relevan dan trending.
                             </p>
                         </div>
 
@@ -183,7 +178,7 @@ export default function Home() {
                             </div>
                             <h3 className="text-xl font-bold text-slate-900 mb-2">Contoh Praktis</h3>
                             <p className="text-slate-700">
-                                Setiap artikel dilengkapi dengan contoh kode dan studi kasus nyata yang bisa dipelajari.
+                                Setiap berita ditulis dengan hati-hati sehingga kemungkinan berita tersebut hhoax sangatlah rendah.
                             </p>
                         </div>
                     </div>
