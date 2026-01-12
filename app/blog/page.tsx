@@ -4,8 +4,11 @@ import { getAllPosts } from "@/lib/post";
 import { Metadata } from "next";
 import Link from "next/link";
 import { parse } from "node:path";
+import Pagination from "@/components/Pagination";
 
 export const revalidate = 30; // Revalidate every 30 seconds
+
+const POSTS_PER_PAGE = 3;
 
 export const metadata: Metadata = {
     title: "Blog",
@@ -21,16 +24,16 @@ interface BlogPost {
     author: string;
 }
 
-export default async function Home({ searchParams }) {
+export default async function Home({ searchParams }): Promise<JSX.Element> {
     
     const params = await searchParams;
 
     const page = parsePageParam(params.page);
     console.log(`Page: ${page}`);
 
-    const allPosts = await getAllPosts();
+    const {pageCount, posts} = await getAllPosts(POSTS_PER_PAGE, page);
     
-    const blogPosts: BlogPost[] = allPosts.map(post => ({
+    const blogPosts: BlogPost[] = posts.map(post => ({
         title: post.title,
         slug: post.slug,
         description: post.description,
@@ -41,14 +44,10 @@ export default async function Home({ searchParams }) {
 
     return (
         <div className="px-4 py-8 sm:px-6 lg:px-8">
-            <Heading title="This is Blog" />
+            <Heading title="Blog" />
             <h2 className="text-gray-600 text-lg font-medium">List of blog</h2>
             <br />
-            <div className="flex gap-3">
-                <Link href={`/blog?page=${page > 1 ? page - 1 : 1}`}>&lt;</Link>
-                <span>Page {page}</span>
-                <Link href={`/blog?page=${page + 1}`}>&gt;</Link>
-            </div>
+            <Pagination href="/blog" page={page} pageCount={pageCount} />
             <div className="mt-8 space-y-4">
                 {blogPosts.map((post: BlogPost, index: number) => (
                     <PostCard

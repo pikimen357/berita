@@ -1,19 +1,6 @@
 import Link from "next/link";
-import { getAllPosts } from "@/lib/post";
 
-interface BlogPost {
-    title: string;
-    slug: string;
-}
-
-export default  async function BlogLayout({children}: {children: React.ReactNode}) {
-
-    const allPosts = await getAllPosts();
-        
-    const blogPosts: BlogPost[] = allPosts.map(post => ({
-            title: post.title,
-            slug: post.slug,
-        }));
+export default  async function BlogLayout({children}: {children: React.ReactNode})  {
 
     return (
         <div className="flex gap-8 min-h-screen">
@@ -44,26 +31,8 @@ export default  async function BlogLayout({children}: {children: React.ReactNode
                             </ul>
                         </div>
 
-                        <div className="pb-4 border-b border-gray-200">
-                            <h4 className="text-sm font-semibold text-gray-600 uppercase mb-3">Populer</h4>
-                            <ul className="space-y-2">
-                                {blogPosts.map((post: BlogPost) => (
-                                    <li key={post.slug}>
-                                        <Link href={`/blog/${post.slug}`} className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
-                                            {post.title}
-                                        </Link>
-                                    </li>
-                                ))}
-                                            
-                                <li>
-                                    <Link href="/blog/judul-berita" className="text-gray-700 hover:text-blue-600 hover:pl-2 transition duration-200 block text-sm">
-                                        Judul Berita
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
 
-                        <div className="mt-auto pt-4">
+                        <div className="mt-auto pt-8">
                             <h4 className="text-sm font-semibold text-gray-600 uppercase mb-3">Lainnya</h4>
                             <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-semibold transition duration-200">
                                 Subscribe

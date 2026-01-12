@@ -14,11 +14,25 @@ interface FetchPostsParams {
     sort?: string[];
     pagination?: {
         pageSize: number;
+        page?: number;
         withCount?: boolean;
     };
 }
 
+interface StrapiFetchImage {
+    id: number;
+    documentId: string;
+    url: string;
+    formats?: {
+        thumbnail?: {
+            url: string;
+        };
+    };
+}
+
 interface StrapiPost {
+    id: number;
+    documentId: string;
     slug: string;
     title: string;
     description: string;
@@ -26,12 +40,17 @@ interface StrapiPost {
     publishedAt: string;
     body?: string;
     rate?: string;
-    image?: {
-        url?: string;
-        formats?: {
-            thumbnail?: {
-                url: string;
-            };
+    image?: StrapiFetchImage;
+}
+
+interface StrapiFetchResponse {
+    data: StrapiPost[];
+    meta: {
+        pagination: {
+            page: number;
+            pageSize: number;
+            total?: number;
+            pageCount?: number;
         };
     };
 }
@@ -47,9 +66,14 @@ interface Post {
     rate?: string;
 }
 
+interface PostsResponse {
+    posts: Post[];
+    pageCount: number;
+}
+
 export async function getPost(slug: string): Promise<Post> {
 
-    const data = await fetchPosts({
+    const { data } = await fetchPosts({
         filters : { slug: { $eq: slug } },
         fields : ['slug','title', 'description', 'publishedAt','author', 'body', 'rate'],
         populate: { image : {fields: 'url'} },
@@ -62,31 +86,32 @@ export async function getPost(slug: string): Promise<Post> {
     
     const dataItem: StrapiPost = data[0];
 
-    // if (!dataItem) {
-    //     throw new Error(`Post dengan slug "${slug}" tidak ditemukan`);
-    // }
-
     return await toPost(dataItem, true);
 }
 
-export async function getAllPosts(): Promise<Array<Post>> {
+export async function getAllPosts(pageSize: number, page: number): Promise<PostsResponse> {
 
-    const data = await fetchPosts({
+    const { data, meta } = await fetchPosts({
         fields : ['slug','title', 'description', 'publishedAt','author'],
         populate: { image : {fields: 'url'} },
         sort: ['updatedAt:desc'],
-        pagination: { pageSize: 3}
+        pagination: { pageSize, page }
     });
 
-    const posts: Promise<Post>[] = data.map((item: StrapiPost) => toPost(item, false));
-    
-    return await Promise.all(posts);
+    const posts = await Promise.all(data.map(item => toPost(item, false)));
+
+    return {
+        pageCount: meta.pagination.pageCount,
+        posts
+    };
 }
 
 
-async function fetchPosts(parameters: FetchPostsParams): Promise<Array<any>> {
+async function fetchPosts(parameters: FetchPostsParams): Promise<StrapiFetchResponse> {
     const  url: string  =  `${apiUrl}/posts` + '?' + 
     qs.stringify(parameters, { encodeValuesOnly: true });
+
+    console.log(url);
 
     const response: Response = await fetch(url, {
         next: { tags: [CAHCE_TAG_POSTS] }
@@ -95,9 +120,8 @@ async function fetchPosts(parameters: FetchPostsParams): Promise<Array<any>> {
     if (!response.ok) {
         throw new Error(`Gagal mengambil data dari Strapi: ${response.status} ${response.statusText}`);
     }
-    const { data } = await response.json();
     
-    return data;
+    return await response.json();
 }
 
 
@@ -124,10 +148,10 @@ async function toPost(item: StrapiPost, isFullPost: boolean = false): Promise<Po
 }
 
 export async function getSlugs(): Promise<string[]> {
-    const data = await fetchPosts({
+    const { data } = await fetchPosts({
         fields : ['slug'],
         sort: ['publishedAt:desc'],
-        pagination: { pageSize: 100}
+        pagination: { pageSize: 1000, withCount: true }
     });
 
     return data.map((item: StrapiPost) => item.slug);

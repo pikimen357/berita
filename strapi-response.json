@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "id": 31,
+      "documentId": "fsv83f4mf9sjf5saviu1zh3z",
+      "slug": "wluwluwu",
+      "title": "Wluwluwu",
+      "description": "pupupuluuuu",
+      "publishedAt": "2026-01-10T07:54:14.748Z",
+      "author": "Pulu",
+      "image": {
+        "id": 6,
+        "documentId": "yt7qdu8k0pwmxmfhrfu7t6zy",
+        "url": "/uploads/hacker2_a59ecccfb7.jpg"
+      }
+    },
+    {
+      "id": 29,
+      "documentId": "t2at1l9jxupnpegtsb2j3deb",
+      "slug": "belajar-strapi",
+      "title": "Belajar Strapi  Master",
+      "description": "Belajar bareng masternyaa",
+      "publishedAt": "2026-01-10T07:52:21.086Z",
+      "author": "vicky",
+      "image": {
+        "id": 1,
+        "documentId": "tsxt17mikurrjhkc1s78hmj7",
+        "url": "/uploads/esteh_05f89f32f7.jpg"
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 2,
+      "pageCount": 2,
+      "total": 4
+    }
+  }
+}
