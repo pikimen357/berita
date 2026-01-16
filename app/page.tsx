@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { parsePageParam, POSTS_PER_PAGE } from "./blog/page";
 import { getAllPosts } from "@/lib/post";
+import { JSX } from "react";
 // import PostCard from "@/components/PostCard"; // Hapus jika tidak dipakai, atau gunakan di bawah
 
 export const metadata: Metadata = {

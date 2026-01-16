@@ -1,7 +1,8 @@
 import Link from "next/link";
 import ListAside from "@/components/ListAside";
+import { JSX } from "react";
 
-export default  async function BlogLayout({children}: {children: React.ReactNode})  {
+export default  async function BlogLayout({children}: {children: React.ReactNode}): Promise<JSX.Element> {
 
     return (
         <div className="flex gap-8 min-h-screen">

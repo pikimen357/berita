@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from "react";
 
 export default function ListAside( { content }: { content: string }): JSX.Element {
     return (

@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { JSX } from "react";
 
-export default function NotFoundPage() {
+export default function NotFoundPage(): JSX.Element {
     return (
         <>
             <div className="flex flex-col items-center justify-center min-h-screen -mt-32 px-4">

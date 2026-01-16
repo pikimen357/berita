@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import { roboto } from "./fonts";
 import './globals.css';
 import { Metadata } from "next";
+import { JSX } from "react";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 
-export  default function Layout({ children } : LayoutProps) {
+export  default function Layout({ children } : LayoutProps): JSX.Element {
     return (
         <html lang="en" className={roboto.variable}>
             {/* <head>
@@ -35,7 +36,7 @@ export  default function Layout({ children } : LayoutProps) {
                     {children}
                 </main>
 
-                <footer className="bg-gradient-to-r from-slate-900 to-slate-800 text-white">
+                <footer className="bg-linear-to-r from-slate-900 to-slate-800 text-white">
                     <div className="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 text-center">
                         <p className="text-gray-300 mt-5">© 2024 Next.js Fundamental</p>
                     </div>

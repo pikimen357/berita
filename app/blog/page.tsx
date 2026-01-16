@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { parse } from "node:path";
 import Pagination from "@/components/Pagination";
+import { JSX } from "react";
 
 export const revalidate = 30; // Revalidate every 30 seconds
 

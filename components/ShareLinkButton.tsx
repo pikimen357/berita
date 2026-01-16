@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import { LinkIcon } from "@heroicons/react/24/solid";
+import { JSX } from "react";
 
-export default function ShareLinkButton(): React.JSX.Element {
+export default function ShareLinkButton(): JSX.Element {
 
     const [copied, setCopied] = useState(false);
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { JSX } from "react";
 
 export default function PostCard({title, href, description,image, date, author}): JSX.Element {
     return (
